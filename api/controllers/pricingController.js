@@ -5,10 +5,10 @@ var mongoose = require('mongoose'),
   Pricing = mongoose.model('Pricings');
 
 exports.list_all_pricings = function(req, res) {
-  Pricing.find({}, function(err, pricing) {
+  Pricing.find({}, function(err, pricings) {
     if (err)
       res.send(err);
-    res.json(pricing);
+    res.json(pricings);
   });
 };
 
@@ -17,6 +17,8 @@ exports.list_all_pricings = function(req, res) {
 
 exports.create_a_pricing = function(req, res) {
   var new_pricing = new Pricing(req.body);
+  var fullUrl = req.protocol + '://' + req.get('host') +'/';
+  new_pricing['img'] = fullUrl+req.file.path;
   new_pricing.save(function(err, pricing) {
     if (err)
       res.send(err);
