@@ -3,6 +3,7 @@ var express = require('express'),
   port = process.env.PORT || 3000,
   mongoose = require('mongoose'),
   Pricing = require('./api/models/pricingModel'), //created model loading here
+  User = require('./api/models/userModel'), //created model loading here
   bodyParser = require('body-parser');
 var cors = require('cors');
 
@@ -17,7 +18,8 @@ app.use(cors())
 app.use('/assets', express.static(__dirname + '/assets'));
 var routes = require('./api/routes/pricingRoutes'); //importing route
 routes(app); //register the route
-
+var routes = require('./api/routes/userRoutes'); //importing route
+routes(app); //register the route
 
 app.listen(port);
 
