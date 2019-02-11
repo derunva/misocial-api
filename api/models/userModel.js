@@ -9,7 +9,9 @@ var UserSchema = new Schema({
     type: String,
     required: 'Set your nickname',
     minlength : 3,
-    maxlength : 16
+    maxlength : 16,
+    unique : true, 
+    dropDups: true
   },
   avatar:{
     type :String,
@@ -22,7 +24,9 @@ var UserSchema = new Schema({
   },
   email :{
     type: String,
-    required : 'email is required'
+    required : 'email is required',
+    unique : true, 
+    dropDups: true
   },
   password : {
     type : String,

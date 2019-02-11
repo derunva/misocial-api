@@ -17,11 +17,18 @@ exports.list_all_users = function(req, res) {
 exports.create_a_user = function(req, res) {
   var new_user = new User(req.body);
   var fullUrl = req.protocol + '://' + req.get('host') +'/';
-  new_user['avatar'] = fullUrl+req.file.path;
+  if(req.file){
+    new_user['avatar'] = fullUrl+req.file.path;
+  }
+  
   new_user.save(function(err, user) {
-    if (err)
-      res.send(err);
-    user.password = undefined
+    if (err){
+      res.status(400).send(err);
+    }
+    else{
+      user.password = undefined
+    }
+    
 
     res.json(user);
   });
@@ -30,18 +37,24 @@ exports.create_a_user = function(req, res) {
 
 exports.read_a_user = function(req, res) {
   User.findById(req.params.userId, function(err, user) {
-    if (err)
+    if (err){
       res.send(err);
-    user.password = undefined
+    }
+    else{
+      user.password = undefined
+    }
     res.json(user);
   });
 };
 
 function updateUser (id, userNewData, res){
   User.findOneAndUpdate({_id: id}, userNewData, {new: true}, function(err, user) {
-    if (err)
-      res.send(err);
-    user.password = undefined
+    if (err){
+      res.status(400).send(err);
+    }
+    else{
+      user.password = undefined
+    }
     res.json(user);
   });
 }
